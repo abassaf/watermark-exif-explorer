@@ -1,0 +1,1 @@
+function e(e){return new Worker(`/watermark-exif-explorer/assets/batchExport.worker-BD7wJQN9.js`,{type:`module`,name:e?.name})}export{e as default};
