@@ -45,17 +45,20 @@ export function WatermarkPanel() {
 
   // Load logo bitmap
   useEffect(() => {
-    if (watermark.image.logoUrl) {
-      createImageBitmap(watermark.image.logoFile!).then((bmp) => {
-        logoBitmapRef.current?.close()
-        logoBitmapRef.current = bmp
-        redraw()
-      })
-    } else {
+    if (!watermark.image.logoUrl || !watermark.image.logoFile) {
       logoBitmapRef.current?.close()
       logoBitmapRef.current = null
       redraw()
+      return
     }
+    let cancelled = false
+    createImageBitmap(watermark.image.logoFile).then((bmp) => {
+      if (cancelled) { bmp.close(); return }
+      logoBitmapRef.current?.close()
+      logoBitmapRef.current = bmp
+      redraw()
+    }).catch(() => { /* logo failed to decode — redraw without it */ redraw() })
+    return () => { cancelled = true }
   }, [watermark.image.logoUrl])
 
   // Redraw on config changes

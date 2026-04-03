@@ -39,7 +39,6 @@ export async function runBatchExport(
   const total = images.length
   let processed = 0
   const queue = [...images]
-  const pool: Promise<void>[] = []
 
   const runJob = async (item: ImageItem): Promise<void> => {
     let sourceBitmap: ImageBitmap
@@ -111,7 +110,6 @@ export async function runBatchExport(
   for (let i = 0; i < queue.length; i += MAX_WORKERS) {
     const batch = queue.slice(i, i + MAX_WORKERS)
     await Promise.all(batch.map(runJob))
-    pool.length = 0
   }
 
   if (logoBitmap) logoBitmap.close()
