@@ -162,7 +162,7 @@ export function WatermarkPanel() {
       <div
         ref={containerRef}
         className="rounded-xl overflow-hidden border border-zinc-700 bg-zinc-950"
-        style={{ height: '220px' }}
+        style={{ height: '420px' }}
       >
         <canvas
           ref={canvasRef}
